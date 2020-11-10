@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/ic_cards"
+        android:id="@+id/cardsFragment"
         android:icon="@drawable/ic_cards"
         android:title="Учить"/>
 
     <item
-        android:id="@+id/ic_lists"
+        android:id="@+id/listsFragment"
         android:icon="@drawable/ic_lists"
         android:title="Списки"/>
 
 
     <item
-        android:id="@+id/ic_setting"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="Настройки"/>
 
