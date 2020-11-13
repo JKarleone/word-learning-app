@@ -5,7 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
+import com.example.word_learning_app.CardModel
+import com.example.word_learning_app.CardStackAdapter
+import com.example.word_learning_app.CardStackCallback
 import com.example.word_learning_app.R
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackView
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +32,9 @@ class CardsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var manager: CardStackLayoutManager
+    private lateinit var adapter: CardStackAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,8 +47,58 @@ class CardsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cards, container, false)
+        var root = inflater.inflate(R.layout.fragment_cards, container, false)
+
+        init(root)
+
+        return root
+    }
+
+    private fun init(root: View) {
+        val cardStackView = root.findViewById<CardStackView>(R.id.card_stack_view)
+        val cardStackListener = object : CardStackListener {
+            override fun onCardDragging(direction: Direction?, ratio: Float) {
+            }
+
+            override fun onCardRewound() {
+            }
+
+            override fun onCardCanceled() {
+            }
+
+            override fun onCardAppeared(view: View?, position: Int) {
+            }
+
+            override fun onCardDisappeared(view: View?, position: Int) {
+            }
+
+            override fun onCardSwiped(direction: Direction?) {
+                paginate()
+                Toast.makeText(root.context, direction?.name, Toast.LENGTH_SHORT).show()
+            }
+        }
+        manager = CardStackLayoutManager(context, cardStackListener)
+        adapter = CardStackAdapter(getList())
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = adapter
+        cardStackView.itemAnimator = DefaultItemAnimator()
+    }
+
+    private fun paginate() {
+        val old : List<CardModel> = adapter.getCards()
+        val new = getList()
+        val callback = CardStackCallback(old, new)
+        val diff = DiffUtil.calculateDiff(callback)
+        adapter.setCards(new)
+        diff.dispatchUpdatesTo(adapter)
+    }
+
+    private fun getList(): List<CardModel> {
+        val cards = ArrayList<CardModel>()
+        cards.add(CardModel("word", "[w3:d]", "Слово", "Новое слово", "Мой список"))
+        cards.add(CardModel("hello", "[hello]", "привет", "Новое слово", "Мой новый список"))
+
+        return cards
     }
 
     companion object {
