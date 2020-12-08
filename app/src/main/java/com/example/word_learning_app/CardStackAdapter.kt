@@ -10,8 +10,7 @@ class CardStackAdapter(private var cards : List<CardModel>) :
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_card, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(inflater.inflate(R.layout.item_card, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,11 +22,11 @@ class CardStackAdapter(private var cards : List<CardModel>) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var word : TextView = view.findViewById(R.id.word)
-        var transcription : TextView = view.findViewById(R.id.word_transcription)
-        var translation : TextView= view.findViewById(R.id.word_translation)
-        var category : TextView = view.findViewById(R.id.word_category)
-        var listName : TextView = view.findViewById(R.id.word_list_name)
+        private var word : TextView = view.findViewById(R.id.word)
+        private var transcription : TextView = view.findViewById(R.id.word_transcription)
+        private var translation : TextView= view.findViewById(R.id.word_translation)
+        private var category : TextView = view.findViewById(R.id.word_category)
+        private var listName : TextView = view.findViewById(R.id.word_list_name)
 
         fun setData(data : CardModel) {
             word.text = data.word

@@ -41,15 +41,19 @@ class CardsFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        println("onCreate working")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var root = inflater.inflate(R.layout.fragment_cards, container, false)
+        val root = inflater.inflate(R.layout.fragment_cards, container, false)
 
         init(root)
+        println("onCreateView working")
+        retainInstance = true
 
         return root
     }
@@ -95,6 +99,7 @@ class CardsFragment : Fragment() {
 
     private fun getList(): List<CardModel> {
         val cards = ArrayList<CardModel>()
+
         cards.add(CardModel("word", "[w3:d]", "Слово", "Новое слово", "Мой список"))
         cards.add(CardModel("hello", "[hello]", "привет", "Новое слово", "Мой новый список"))
 

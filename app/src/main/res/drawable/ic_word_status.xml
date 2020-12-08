@@ -1,5 +1,19 @@
-<vector android:height="24dp" android:tint="#EF5350"
-    android:viewportHeight="24" android:viewportWidth="24"
-    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"/>
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid
+        android:color="#00ff19">
+    </solid>
+
+    <size
+        android:height="25dp"
+        android:width="25dp">
+    </size>
+
+    <corners
+        android:radius="5dp">
+    </corners>
+
+</shape>

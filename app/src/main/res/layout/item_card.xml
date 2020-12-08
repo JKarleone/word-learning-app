@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="25dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp">
+        android:padding="15dp"
+        android:background="@drawable/gradient_card">
 
         <ImageView
             android:id="@+id/word_status"
@@ -17,79 +18,92 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_word_status"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/word_category"/>
 
         <TextView
             android:id="@+id/word_category"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:text="Категория слова"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/word_status"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="5dp"/>
 
+        <ImageView
+            android:id="@+id/word_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_word_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/word_list_name"
+            app:layout_constraintBottom_toBottomOf="@+id/word_list_name"/>
+
         <TextView
             android:id="@+id/word_list_name"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:text="Название списка"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toEndOf="@+id/word_list_image"
+            app:layout_constraintTop_toBottomOf="@+id/word_category"
+            android:layout_marginStart="5dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_more_details"
+            android:background="#00000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Word"
-            android:textSize="40sp"
+            android:text="word"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="#212121"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
 
         <TextView
             android:id="@+id/word_transcription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:text="[wɜːd]"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/word"
-            app:layout_constraintHorizontal_bias="0.25"/>
+            app:layout_constraintTop_toBottomOf="@+id/word" />
 
         <ImageButton
             android:id="@+id/word_sound_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:src="@drawable/ic_play_sound"
-            android:background="@color/white"
+            android:background="#00000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/word"
-            app:layout_constraintHorizontal_bias="0.75"/>
+            app:layout_constraintTop_toTopOf="@+id/word" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/show_translation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:text="Перевод"
-            android:backgroundTint="#BDBDBD"
+            android:textSize="16sp"
+            android:backgroundTint="#7538ff"
             android:visibility="visible"
             android:onClick="showTranslation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/word_sound_button" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/word_translation"
@@ -120,10 +134,12 @@
                 android:layout_weight="1"
 
                 android:text="Запомнил"
+                android:textSize="14sp"
                 android:textColor="#424242"
+
                 app:icon="@drawable/ic_left_arrow"
-                app:iconTint="#424242"
-                app:iconGravity="end"
+                app:iconTint="#763ffa"
+                app:iconGravity="start"
                 style="?android:attr/borderlessButtonStyle"
                 />
 
@@ -134,12 +150,14 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
 
-                android:text="Повторять ещё"
+                android:text="Повторять"
+                android:textSize="14sp"
                 android:textColor="#424242"
+
                 style="?android:attr/borderlessButtonStyle"
                 app:icon="@drawable/ic_right_arrow"
-                app:iconTint="#424242"
-                app:iconGravity="start"
+                app:iconTint="#763ffa"
+                app:iconGravity="end"
                 />
 
         </LinearLayout>
