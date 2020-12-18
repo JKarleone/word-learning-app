@@ -22,4 +22,10 @@ class WordCategoryRepository(private val wordCategoryDao: WordCategoryDao) {
     suspend fun delete(wordCategory: WordCategory) {
         wordCategoryDao.delete(wordCategory)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun update(wordCategory: WordCategory) {
+        wordCategoryDao.update(wordCategory)
+    }
 }

@@ -10,5 +10,5 @@ data class WordCategory(
         val id : Long?,
         val name : String,
         val img : Int,
-        val chosen : Boolean
+        var chosen : Boolean
         )

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
@@ -23,8 +24,8 @@ import com.example.word_learning_app.data.*
 import kotlinx.coroutines.launch
 
 class ListsFragment : Fragment(),
-        WordCategoryAdapter.OnItemLongClickListener,
         WordCategoryAdapter.OnItemClickListener,
+        WordCategoryAdapter.OnCheckBoxClickListener,
         DeleteCategoryDialogFragment.DeleteCategoryListener {
 
     private lateinit var recyclerView: RecyclerView
@@ -106,6 +107,17 @@ class ListsFragment : Fragment(),
             wordCategoryViewModel.delete(wordCategory)
         }
 
+    }
+
+    override fun onCheckBoxClicked(checkBox: CheckBox, position: Int) {
+        var wordCategory = adapter.currentList[position]
+        wordCategory.chosen = !wordCategory.chosen
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            wordCategoryViewModel.update(wordCategory)
+        }
+
+        Toast.makeText(requireContext(), "Чекбокс нажали, теперь он: ${wordCategory.chosen}", Toast.LENGTH_SHORT).show()
     }
 
 }

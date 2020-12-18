@@ -26,4 +26,7 @@ interface WordCategoryDao {
 
     @Delete
     suspend fun delete(wordCategory: WordCategory)
+
+    @Update
+    suspend fun update(wordCategory: WordCategory)
 }

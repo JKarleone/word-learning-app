@@ -14,6 +14,10 @@ class WordCategoryViewModel(private val repository: WordCategoryRepository) : Vi
     suspend fun delete(wordCategory: WordCategory) = viewModelScope.launch {
         repository.delete(wordCategory)
     }
+
+    suspend fun update(wordCategory: WordCategory) = viewModelScope.launch {
+        repository.update(wordCategory)
+    }
 }
 
 class WordCategoryViewModelFactory(private val repository: WordCategoryRepository) : ViewModelProvider.Factory {

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.ListFragment
@@ -16,12 +17,13 @@ import com.example.word_learning_app.fragments.ListsFragment
 class WordCategoryAdapter(private val fragment: ListsFragment) :
         androidx.recyclerview.widget.ListAdapter<WordCategory, WordCategoryAdapter.ViewHolder>(WORDS_CATEGORY_COMPARATOR){
 
-    interface OnItemLongClickListener {
+    interface OnItemClickListener {
+        fun onItemClicked(position: Int): Boolean
         fun onItemLongClicked(position: Int): Boolean
     }
 
-    interface OnItemClickListener {
-        fun onItemClicked(position: Int): Boolean
+    interface OnCheckBoxClickListener {
+        fun onCheckBoxClicked(checkBox: CheckBox, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,6 +41,11 @@ class WordCategoryAdapter(private val fragment: ListsFragment) :
         holder.itemView.setOnLongClickListener {
             fragment.onItemLongClicked(position)
         }
+
+        val checkBox: CheckBox = holder.itemView.findViewById(R.id.category_check_box)
+        checkBox.setOnClickListener {
+            fragment.onCheckBoxClicked(checkBox, position)
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,8 +56,7 @@ class WordCategoryAdapter(private val fragment: ListsFragment) :
         fun setData(wordCategory: WordCategory) {
             categoryName.text = wordCategory.name
             categoryIcon.setImageDrawable(itemView.resources.getDrawable(getImage(wordCategory.img)))
-            if (wordCategory.chosen)
-                checkBox.toggle()
+            checkBox.isChecked = wordCategory.chosen
         }
 
         // TODO("Добавить другие иконки для категорий")
