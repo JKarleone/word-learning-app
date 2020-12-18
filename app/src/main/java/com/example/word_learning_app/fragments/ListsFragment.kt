@@ -1,60 +1,111 @@
 package com.example.word_learning_app.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.word_learning_app.NewWordCategoryActivity
 import com.example.word_learning_app.R
+import com.example.word_learning_app.WordLearningApplication
+import com.example.word_learning_app.WordCategoryAdapter
+import com.example.word_learning_app.data.*
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ListsFragment : Fragment(),
+        WordCategoryAdapter.OnItemLongClickListener,
+        WordCategoryAdapter.OnItemClickListener,
+        DeleteCategoryDialogFragment.DeleteCategoryListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ListsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: WordCategoryAdapter
+
+    private val newWordCategoryActivityRequestCode = 1
+    private val wordCategoryViewModel: WordCategoryViewModel by viewModels {
+        WordCategoryViewModelFactory((activity?.application as WordLearningApplication).wordCategoryRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lists, container, false)
+        val root = inflater.inflate(R.layout.fragment_lists, container, false)
+
+        recyclerView = root.findViewById(R.id.word_category_list)
+        adapter = WordCategoryAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        wordCategoryViewModel.allWordCategories.observe(requireActivity()) { wordCategories ->
+            wordCategories.let { adapter.submitList(it) }
+        }
+
+        val addingCategoryLayout: ConstraintLayout = root.findViewById(R.id.adding_category_btn)
+        addingCategoryLayout.setOnClickListener {
+            Toast.makeText(requireContext(), "Try to add new category", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), NewWordCategoryActivity::class.java)
+            startActivityForResult(intent, newWordCategoryActivityRequestCode)
+        }
+
+        return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ListsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            val categoryName = data?.getStringExtra(NewWordCategoryActivity.EXTRA_NAME)
+            val imgIndex = data?.getIntExtra(NewWordCategoryActivity.EXTRA_IMG, -1)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                wordCategoryViewModel.insert(categoryName!!, imgIndex!!, false)
             }
+
+            Toast.makeText(requireContext(), "Добавлен новый список: $categoryName", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(requireContext(), "Ничего не добалено", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    override fun onItemLongClicked(position: Int): Boolean {
+        Toast.makeText(requireContext(), "Длинный клик", Toast.LENGTH_SHORT).show()
+
+        val dialogFragment = DeleteCategoryDialogFragment(this, position)
+        val manager = requireActivity().supportFragmentManager
+        dialogFragment.show(manager, "DeleteCategoryDialog")
+
+        return true
+    }
+
+    override fun onItemClicked(position: Int): Boolean {
+        Toast.makeText(requireContext(), "Клик", Toast.LENGTH_SHORT).show()
+
+        return true
+    }
+
+    override fun confirmButtonClicked(position: Int) {
+        Toast.makeText(requireContext(), "Пытаюсь удалить", Toast.LENGTH_SHORT).show()
+        val wordCategory = adapter.currentList[position]
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            wordCategoryViewModel.delete(wordCategory)
+        }
+
+    }
+
 }

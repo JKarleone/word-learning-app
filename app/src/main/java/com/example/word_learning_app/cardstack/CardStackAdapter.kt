@@ -1,13 +1,15 @@
-package com.example.word_learning_app
+package com.example.word_learning_app.cardstack
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.word_learning_app.R
 
 class CardStackAdapter(private var cards : List<CardModel>) :
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.item_card, parent, false))

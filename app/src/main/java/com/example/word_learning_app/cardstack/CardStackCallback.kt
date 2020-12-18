@@ -1,4 +1,4 @@
-package com.example.word_learning_app
+package com.example.word_learning_app.cardstack
 
 import androidx.recyclerview.widget.DiffUtil
 
