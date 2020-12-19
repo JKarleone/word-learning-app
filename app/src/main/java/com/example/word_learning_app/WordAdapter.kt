@@ -48,7 +48,7 @@ class WordAdapter(private var context: Context) :
             transcription.text = word.transcription
             translation.text = word.translation
             wordStatus.text = getStatus(word.repeatCount)
-            statusIcon.setBackgroundResource(getStatusIcon(word.repeatCount))
+            statusIcon.setImageResource(getStatusIcon(word.repeatCount))
         }
 
         private fun getStatus(status: Int): String =

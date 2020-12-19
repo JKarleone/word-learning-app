@@ -54,12 +54,12 @@ class CardStackAdapter(private var cards : List<Card> = emptyList()) :
             translation.text = card.translation
 
             // Word status info
-            wordStatusImg.setBackgroundResource(getStatusImg(card.repeatCount))
+            wordStatusImg.setImageResource(getStatusImg(card.repeatCount))
             wordStatusName.text = getStatusName(card.repeatCount)
 
             // Word category info
+            wordListImg.setImageResource(getWordListImage(card.categoryImg!!))
             wordListName.text = card.categoryName
-            wordListImg.setBackgroundResource(getWordListImage(card.categoryImg!!))
 
             // Buttons
             leftButton.text = getNegativeButtonText(card.repeatCount)
