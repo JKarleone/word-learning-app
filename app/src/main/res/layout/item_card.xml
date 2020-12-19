@@ -26,16 +26,20 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
+
             android:text="Категория слова"
             android:textSize="12sp"
+            android:textColor="#0E1F4D"
+            android:fontFamily="@font/nunito_regular"
+
             app:layout_constraintStart_toEndOf="@id/word_status_img"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="5dp"/>
 
         <ImageView
             android:id="@+id/word_list_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/icon_word_status_new_word"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/word_list_name"
@@ -46,28 +50,34 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
+
             android:text="Название списка"
             android:textSize="14sp"
+            android:textColor="#0E1F4D"
+            android:fontFamily="@font/nunito_regular"
+
             app:layout_constraintStart_toEndOf="@+id/word_list_image"
             app:layout_constraintTop_toBottomOf="@+id/word_status_name"
             android:layout_marginStart="5dp"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_more_details"
-            android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+<!--        <ImageButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_more_details"-->
+<!--            android:background="#00000000"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
         <TextView
             android:id="@+id/word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="word"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#212121"
+            android:textColor="#0E1F4D"
+            android:fontFamily="@font/nunito_semibold"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,11 +87,13 @@
             android:id="@+id/word_transcription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+
             android:text="[wɜːd]"
             android:textSize="20sp"
+            android:fontFamily="@font/nunito_regular"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/word" />
+            app:layout_constraintTop_toBottomOf="@+id/word"
+            android:layout_marginTop="5dp"/>
 
         <ImageButton
             android:id="@+id/word_sound_button"
@@ -96,14 +108,17 @@
             android:id="@+id/show_translation_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+
             android:text="Перевод"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nunito_semibold"
             android:backgroundTint="#7538ff"
             android:visibility="visible"
             android:onClick="showTranslation"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:id="@+id/word_translation"
@@ -135,7 +150,9 @@
 
                 android:text="Запомнил"
                 android:textSize="14sp"
-                android:textColor="#424242"
+                android:textColor="#0E1F4D"
+                android:textAllCaps="false"
+                android:fontFamily="@font/nunito_regular"
 
                 app:icon="@drawable/ic_left_arrow"
                 app:iconTint="#763ffa"
@@ -152,7 +169,9 @@
 
                 android:text="Повторять"
                 android:textSize="14sp"
-                android:textColor="#424242"
+                android:textColor="#0E1F4D"
+                android:textAllCaps="false"
+                android:fontFamily="@font/nunito_regular"
 
                 style="?android:attr/borderlessButtonStyle"
                 app:icon="@drawable/ic_right_arrow"

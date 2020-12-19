@@ -87,7 +87,7 @@ class CardStackAdapter(private var cards : List<Card> = emptyList()) :
         private fun getNegativeButtonText(status: Int): String =
             when(status) {
                 -1 -> "Не учить"
-                else -> "Не запомнил"
+                else -> "Повторять"
             }
 
         private fun getWordListImage(img: Int) : Int =
