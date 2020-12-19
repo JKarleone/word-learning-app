@@ -72,6 +72,9 @@ class WordsListActivity : AppCompatActivity(),
     override fun onItemLongClicked(position: Int): Boolean {
         Toast.makeText(this, "Длинный клик", Toast.LENGTH_SHORT).show()
 
+        val dialogFragment = DeleteWordDialogFragment(position)
+        dialogFragment.show(supportFragmentManager, "DeleteWordDialog")
+
         return true
     }
 
@@ -83,6 +86,12 @@ class WordsListActivity : AppCompatActivity(),
 
     override fun confirmButtonClicked(position: Int) {
         // TODO(Обработчик кнопки удаления слова)
+        val word = adapter.currentList[position]
+
+        lifecycleScope.launch {
+            wordsListViewModel.delete(word)
+        }
+
     }
 
     fun onBackButtonClick(view: View) {
