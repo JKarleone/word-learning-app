@@ -9,6 +9,9 @@ import kotlinx.coroutines.launch
 class WordsListViewModel(private val repository: WordRepository) : ViewModel() {
     val allWords: LiveData<List<Word>> = repository.allWords.asLiveData()
 
+    suspend fun getAllWords(categoryId: Long?): List<Word> =
+        repository.getAllWords(categoryId)
+
     suspend fun insert(word: Word) {
         repository.insert(word)
     }

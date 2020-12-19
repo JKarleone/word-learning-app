@@ -13,7 +13,11 @@ interface WordDao {
 
     @Transaction
     @Query("SELECT * FROM words WHERE wordCategoryId = :id")
-    fun getAllWordsInCategoryById(id: Long): Flow<List<Word>>
+    fun getAllWordsInCategoryById(id: Long?): Flow<List<Word>>
+
+    @Transaction
+    @Query("SELECT * FROM words WHERE wordCategoryId = :id")
+    suspend fun getAllWords(id: Long?) : List<Word>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(word: Word)

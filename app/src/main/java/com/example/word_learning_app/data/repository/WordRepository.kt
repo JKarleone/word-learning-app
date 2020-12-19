@@ -5,7 +5,7 @@ import com.example.word_learning_app.data.Dao.WordDao
 import com.example.word_learning_app.data.entity.Word
 import kotlinx.coroutines.flow.Flow
 
-class WordRepository(private val wordCategoryId: Long,
+class WordRepository(private val wordCategoryId: Long?,
                      private val wordDao: WordDao) {
 
     val allWords: Flow<List<Word>> by lazy {
@@ -29,4 +29,9 @@ class WordRepository(private val wordCategoryId: Long,
     suspend fun update(word: Word) {
         wordDao.update(word)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllWords(categoryId: Long?): List<Word> =
+        wordDao.getAllWords(categoryId)
 }

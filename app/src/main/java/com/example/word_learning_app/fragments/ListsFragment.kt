@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.word_learning_app.*
 import com.example.word_learning_app.data.*
+import com.example.word_learning_app.data.repository.WordRepository
 import kotlinx.coroutines.launch
 
 class ListsFragment : Fragment(),
@@ -27,6 +28,8 @@ class ListsFragment : Fragment(),
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WordCategoryAdapter
+
+    private lateinit var wordsListViewModel: WordsListViewModel
 
     private val newWordCategoryActivityRequestCode = 1
     private val wordCategoryViewModel: WordCategoryViewModel by viewModels {
@@ -108,6 +111,18 @@ class ListsFragment : Fragment(),
         val wordCategory = adapter.currentList[position]
 
         viewLifecycleOwner.lifecycleScope.launch {
+
+            // Delete all words
+            wordsListViewModel = WordsListViewModel(
+                WordRepository(wordCategory.id,
+                    (requireActivity().application as WordLearningApplication).db.wordDao())
+            )
+            val words = wordsListViewModel.getAllWords(wordCategory.id)
+            for (word in words) {
+                wordsListViewModel.delete(word)
+            }
+
+            // Delete category
             wordCategoryViewModel.delete(wordCategory)
         }
 
