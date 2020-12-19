@@ -15,7 +15,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="15dp">
 
             <ImageButton
                 android:id="@+id/back_button"

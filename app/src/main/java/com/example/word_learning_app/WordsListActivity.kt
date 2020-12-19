@@ -39,14 +39,14 @@ class WordsListActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_words_list)
 
-        actionBar?.hide()
+        supportActionBar?.hide()
 
         categoryId = intent.extras?.getLong(EXTRA_CATEGORY_ID)!!
         categoryName = intent.extras?.getString(EXTRA_CATEGORY_NAME).toString()
         categoryImg = intent.extras?.getInt(EXTRA_CATEGORY_IMG)!!
 
         val listNameTextView: TextView = findViewById(R.id.list_name)
-        listNameTextView.text = "$categoryName $categoryId"
+        listNameTextView.text = categoryName
 
         recyclerView = findViewById(R.id.words_list)
         adapter = WordAdapter(this)
