@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Word_learning_app">
-        <activity android:name=".NewWordCategoryActivity"></activity>
+        <activity android:name=".NewWordActivity"></activity>
+        <activity android:name=".WordsListActivity" />
+        <activity android:name=".NewWordCategoryActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

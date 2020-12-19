@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
-import com.example.word_learning_app.cardstack.CardModel
-import com.example.word_learning_app.cardstack.CardStackAdapter
-import com.example.word_learning_app.cardstack.CardStackCallback
+import com.example.word_learning_app.ui.cardstack.CardModel
+import com.example.word_learning_app.ui.cardstack.CardStackAdapter
+import com.example.word_learning_app.ui.cardstack.CardStackCallback
 import com.example.word_learning_app.R
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackView

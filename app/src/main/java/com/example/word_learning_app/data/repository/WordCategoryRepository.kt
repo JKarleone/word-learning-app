@@ -1,4 +1,4 @@
-package com.example.word_learning_app.data
+package com.example.word_learning_app.data.repository
 
 import androidx.annotation.WorkerThread
 import com.example.word_learning_app.data.Dao.WordCategoryDao
@@ -12,7 +12,6 @@ class WordCategoryRepository(private val wordCategoryDao: WordCategoryDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(name: String, img: Int, chosen: Boolean) {
-//        wordCategoryDao.insert(name, img, chosen)
         val newCategory = WordCategory( id = null, name = name, img = img, chosen = chosen )
         wordCategoryDao.insert(newCategory)
     }

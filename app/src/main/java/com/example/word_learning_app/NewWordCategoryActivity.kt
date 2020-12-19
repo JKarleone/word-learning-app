@@ -24,7 +24,7 @@ class NewWordCategoryActivity : AppCompatActivity() {
             finish()
         }
 
-        val addButton: Button = findViewById(R.id.button_save)
+        val addButton: Button = findViewById(R.id.button_save_word_category)
         addButton.setOnClickListener {
             val replyIntent = Intent()
 

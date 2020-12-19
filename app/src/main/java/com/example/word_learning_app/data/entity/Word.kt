@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = "words")
 data class Word (
-    @PrimaryKey(autoGenerate = true) val id : Long,
+    @PrimaryKey(autoGenerate = true) val id : Long?,
     val word : String?,
     val wordCategoryId : Long,
     val transcription : String?,

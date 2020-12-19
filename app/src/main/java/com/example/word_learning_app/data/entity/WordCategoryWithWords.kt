@@ -1,4 +1,4 @@
-package com.example.word_learning_app.data
+package com.example.word_learning_app.data.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

@@ -2,6 +2,7 @@ package com.example.word_learning_app.data
 
 import androidx.lifecycle.*
 import com.example.word_learning_app.data.entity.WordCategory
+import com.example.word_learning_app.data.repository.WordCategoryRepository
 import kotlinx.coroutines.launch
 
 class WordCategoryViewModel(private val repository: WordCategoryRepository) : ViewModel() {

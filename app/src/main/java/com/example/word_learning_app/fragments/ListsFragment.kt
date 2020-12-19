@@ -16,10 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.word_learning_app.NewWordCategoryActivity
-import com.example.word_learning_app.R
-import com.example.word_learning_app.WordLearningApplication
-import com.example.word_learning_app.WordCategoryAdapter
+import com.example.word_learning_app.*
 import com.example.word_learning_app.data.*
 import kotlinx.coroutines.launch
 
@@ -94,7 +91,14 @@ class ListsFragment : Fragment(),
     }
 
     override fun onItemClicked(position: Int): Boolean {
-        Toast.makeText(requireContext(), "Клик", Toast.LENGTH_SHORT).show()
+        var wordCategory = adapter.currentList[position]
+
+        val intent = Intent(requireContext(), WordsListActivity::class.java)
+        intent.putExtra(WordsListActivity.EXTRA_CATEGORY_NAME, wordCategory.name)
+        intent.putExtra(WordsListActivity.EXTRA_CATEGORY_ID, wordCategory.id)
+        intent.putExtra(WordsListActivity.EXTRA_CATEGORY_IMG, wordCategory.img)
+
+        startActivity(intent)
 
         return true
     }

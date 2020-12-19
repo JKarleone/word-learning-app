@@ -34,7 +34,7 @@
                 android:id="@+id/category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Добавить категорию"
+                android:text="@string/add_new_word_category"
                 android:textSize="16sp"
                 android:textColor="#000000"
                 android:fontFamily="@font/nunito_regular"

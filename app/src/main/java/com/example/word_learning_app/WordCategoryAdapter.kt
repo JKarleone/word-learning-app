@@ -55,7 +55,7 @@ class WordCategoryAdapter(private val fragment: ListsFragment) :
 
         fun setData(wordCategory: WordCategory) {
             categoryName.text = wordCategory.name
-            categoryIcon.setImageDrawable(itemView.resources.getDrawable(getImage(wordCategory.img)))
+            categoryIcon.setBackgroundResource(getImage(wordCategory.img))
             checkBox.isChecked = wordCategory.chosen
         }
 

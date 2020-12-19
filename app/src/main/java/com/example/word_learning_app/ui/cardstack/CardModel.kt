@@ -1,4 +1,4 @@
-package com.example.word_learning_app.cardstack
+package com.example.word_learning_app.ui.cardstack
 
 class CardModel(var word : String,
                 var transcription : String,

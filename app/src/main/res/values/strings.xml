@@ -3,4 +3,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_word_category">Добавление категории</string>
     <string name="word_category_name">Название категории</string>
+    <string name="add_new_word_category">Добавить категорию</string>
+    <string name="list_name">Название списка</string>
 </resources>
