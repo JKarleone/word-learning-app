@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.word_learning_app.*
 import com.example.word_learning_app.data.*
+import com.example.word_learning_app.data.entity.Card
+import com.example.word_learning_app.data.repository.CardsRepository
 import com.example.word_learning_app.data.repository.WordRepository
 import kotlinx.coroutines.launch
 
@@ -118,6 +120,12 @@ class ListsFragment : Fragment(),
                     (requireActivity().application as WordLearningApplication).db.wordDao())
             )
             val words = wordsListViewModel.getAllWords(wordCategory.id)
+
+            if (wordCategory.chosen) {
+                val cardsRepository = CardsRepository((requireActivity().application as WordLearningApplication).db.cardDao())
+                cardsRepository.delete(wordCategory.id)
+            }
+
             for (word in words) {
                 wordsListViewModel.delete(word)
             }
@@ -134,6 +142,29 @@ class ListsFragment : Fragment(),
 
         viewLifecycleOwner.lifecycleScope.launch {
             wordCategoryViewModel.update(wordCategory)
+
+            val cardsRepository = CardsRepository((requireActivity().application as WordLearningApplication).db.cardDao())
+            if (!wordCategory.chosen)
+                cardsRepository.delete(wordCategory.id)
+            else {
+                val wordRepository = WordRepository(wordCategory.id, (requireActivity().application as WordLearningApplication).db.wordDao())
+                val words = wordRepository.getAllWords(wordCategory.id)
+                for (word in words) {
+                    if (word.repeatCount < 10)
+                        cardsRepository.insert(Card(
+                                id = null,
+                                wordId = word.id,
+                                word = word.word,
+                                categoryId = wordCategory.id,
+                                categoryName = wordCategory.name,
+                                categoryImg = wordCategory.img,
+                                transcription = word.transcription,
+                                translation = word.translation,
+                                repeatCount = word.repeatCount,
+                                timeToRepeat = word.timeToRepeat
+                        ))
+                }
+            }
         }
 
         Toast.makeText(requireContext(), "Чекбокс нажали, теперь он: ${wordCategory.chosen}", Toast.LENGTH_SHORT).show()

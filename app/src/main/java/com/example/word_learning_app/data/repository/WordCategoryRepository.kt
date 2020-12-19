@@ -27,4 +27,10 @@ class WordCategoryRepository(private val wordCategoryDao: WordCategoryDao) {
     suspend fun update(wordCategory: WordCategory) {
         wordCategoryDao.update(wordCategory)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getCategoryById(id: Long?): WordCategory {
+        return wordCategoryDao.getWordCategoryById(id)
+    }
 }

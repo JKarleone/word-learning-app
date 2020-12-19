@@ -6,43 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
-import com.example.word_learning_app.ui.cardstack.CardModel
 import com.example.word_learning_app.ui.cardstack.CardStackAdapter
 import com.example.word_learning_app.ui.cardstack.CardStackCallback
 import com.example.word_learning_app.R
+import com.example.word_learning_app.WordLearningApplication
+import com.example.word_learning_app.data.CardsViewModel
+import com.example.word_learning_app.data.entity.Card
+import com.example.word_learning_app.data.repository.CardsRepository
+import com.example.word_learning_app.data.repository.WordRepository
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private var count = 0
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CardsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CardsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
 
+    private lateinit var cardsViewModel: CardsViewModel
+
+    private var cards: List<Card> = emptyList()
+
+    private lateinit var currentCard: Card
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-        println("onCreate working")
     }
 
     override fun onCreateView(
@@ -51,14 +45,26 @@ class CardsFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_cards, container, false)
 
-        init(root)
-        println("onCreateView working")
+        setupCardStackView(root)
+
+        val db = (activity?.application as WordLearningApplication).db
+        cardsViewModel = CardsViewModel(CardsRepository(db.cardDao()))
+        cardsViewModel.allWordsForCards.observe(requireActivity()) {
+            val cardsIsEmpty = cards.isEmpty()
+            cards = it
+            if (cardsIsEmpty) {
+                paginate()
+            }
+        }
+
+        adapter.setCards(cards)
+
         retainInstance = true
 
         return root
     }
 
-    private fun init(root: View) {
+    private fun setupCardStackView(root: View) {
         val cardStackView = root.findViewById<CardStackView>(R.id.card_stack_view)
         val cardStackListener = object : CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -74,55 +80,57 @@ class CardsFragment : Fragment() {
             }
 
             override fun onCardDisappeared(view: View?, position: Int) {
+                Toast.makeText(requireContext(), "Disappeared + $position", Toast.LENGTH_SHORT).show()
+                currentCard = adapter.getCards()[position]
             }
 
             override fun onCardSwiped(direction: Direction?) {
-                paginate()
-                Toast.makeText(root.context, direction?.name, Toast.LENGTH_SHORT).show()
+                if (direction == Direction.Right) {
+                    currentCard.repeatCount = currentCard.repeatCount + 1
+
+                    updateCurrentCard()
+                } else if (direction == Direction.Left) {
+                    if (currentCard.repeatCount == -1) {
+                        currentCard.repeatCount = 100
+
+                        updateCurrentCard()
+                    }
+                }
+
+                Toast.makeText(root.context, "${manager.topPosition} ${adapter.itemCount} ${direction?.name}", Toast.LENGTH_SHORT).show()
+
+                if (manager.topPosition == adapter.itemCount) {
+                    paginate()
+                }
+
             }
         }
+        Toast.makeText(requireContext(), "Собираю", Toast.LENGTH_SHORT).show()
         manager = CardStackLayoutManager(context, cardStackListener)
-        adapter = CardStackAdapter(getList())
+        adapter = CardStackAdapter(cards)
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
     }
 
     private fun paginate() {
-        val old : List<CardModel> = adapter.getCards()
-        val new = getList()
+        val old : List<Card> = adapter.getCards()
+        val new = old.plus(cards)
         val callback = CardStackCallback(old, new)
         val diff = DiffUtil.calculateDiff(callback)
         adapter.setCards(new)
         diff.dispatchUpdatesTo(adapter)
     }
 
-    private fun getList(): List<CardModel> {
-        val cards = ArrayList<CardModel>()
+    private fun updateCurrentCard() {
+        lifecycleScope.launch {
+            val db = (activity?.application as WordLearningApplication).db
 
-        cards.add(CardModel("word", "[w3:d]", "Слово", "Новое слово", "Мой список"))
-        cards.add(CardModel("hello", "[hello]", "привет", "Новое слово", "Мой новый список"))
+            val cardRepository = CardsRepository(db.cardDao())
+            cardRepository.update(currentCard)
 
-        return cards
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CardsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CardsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+            val wordRepository = WordRepository(currentCard.categoryId, db.wordDao())
+            wordRepository.update(currentCard.wordId, currentCard.repeatCount)
+        }
     }
 }

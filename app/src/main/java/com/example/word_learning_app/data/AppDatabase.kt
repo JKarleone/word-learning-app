@@ -4,16 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.word_learning_app.data.Dao.CardDao
 import com.example.word_learning_app.data.Dao.WordCategoryDao
 import com.example.word_learning_app.data.Dao.WordDao
+import com.example.word_learning_app.data.entity.Card
 import com.example.word_learning_app.data.entity.Word
 import com.example.word_learning_app.data.entity.WordCategory
 
-@Database(entities = [Word::class, WordCategory::class], version = 1)
+@Database(entities = [Word::class, WordCategory::class, Card::class], version = 1)
 public abstract class AppDatabase : RoomDatabase() {
     
     abstract fun wordDao() : WordDao
     abstract fun wordCategoryDao() : WordCategoryDao
+    abstract fun cardDao() : CardDao
 
     companion object {
         @Volatile

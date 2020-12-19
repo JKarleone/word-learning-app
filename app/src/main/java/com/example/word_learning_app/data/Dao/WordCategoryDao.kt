@@ -18,6 +18,10 @@ interface WordCategoryDao {
     @Query("SELECT * FROM word_categories WHERE name = :name ")
     fun getWordCategoryByName(name: String) : WordCategory
 
+    @Transaction
+    @Query("SELECT * FROM word_categories WHERE id = :id")
+    suspend fun getWordCategoryById(id: Long?): WordCategory
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wordCategory: WordCategory)
 

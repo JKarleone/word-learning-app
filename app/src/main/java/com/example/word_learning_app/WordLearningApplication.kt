@@ -5,8 +5,8 @@ import com.example.word_learning_app.data.AppDatabase
 import com.example.word_learning_app.data.repository.WordCategoryRepository
 
 class WordLearningApplication : Application() {
-//    val applicationScope = CoroutineScope(SupervisorJob())
 
     val db by lazy { AppDatabase.getDatabase(this) }
     val wordCategoryRepository by lazy { WordCategoryRepository(db.wordCategoryDao()) }
+
 }

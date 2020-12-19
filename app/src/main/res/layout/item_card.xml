@@ -13,22 +13,22 @@
         android:background="@drawable/gradient_card">
 
         <ImageView
-            android:id="@+id/word_status"
+            android:id="@+id/word_status_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_word_status"
+            android:src="@drawable/icon_word_status_new_word"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/word_category"/>
+            app:layout_constraintBottom_toBottomOf="@+id/word_status_name"/>
 
         <TextView
-            android:id="@+id/word_category"
+            android:id="@+id/word_status_name"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
             android:text="Категория слова"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/word_status"
+            app:layout_constraintStart_toEndOf="@id/word_status_img"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="5dp"/>
 
@@ -36,7 +36,7 @@
             android:id="@+id/word_list_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_word_status"
+            android:src="@drawable/icon_word_status_new_word"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/word_list_name"
             app:layout_constraintBottom_toBottomOf="@+id/word_list_name"/>
@@ -49,7 +49,7 @@
             android:text="Название списка"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/word_list_image"
-            app:layout_constraintTop_toBottomOf="@+id/word_category"
+            app:layout_constraintTop_toBottomOf="@+id/word_status_name"
             android:layout_marginStart="5dp"/>
 
         <ImageButton
@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <Button
-                android:id="@+id/left_remember_button"
+                android:id="@+id/left_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -144,7 +144,7 @@
                 />
 
             <Button
-                android:id="@+id/right_continue_button"
+                android:id="@+id/right_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
