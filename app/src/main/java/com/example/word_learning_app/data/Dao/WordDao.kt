@@ -8,20 +8,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WordDao {
     @Transaction
-    @Query("SELECT * FROM word_categories WHERE name = :wordCategoryName LIMIT 1")
-    fun getWordCategoryWithWordsByName(wordCategoryName : String) : WordCategoryWithWords
-
-    @Transaction
     @Query("SELECT * FROM words WHERE wordCategoryId = :id")
     fun getAllWordsInCategoryById(id: Long?): Flow<List<Word>>
 
     @Transaction
     @Query("SELECT * FROM words WHERE wordCategoryId = :id")
     suspend fun getAllWords(id: Long?) : List<Word>
-
-    @Transaction
-    @Query("SELECT * FROM word_categories WHERE chosen = 1")
-    fun getAllWordsForCards(): Flow<List<WordCategoryWithWords>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(word: Word)

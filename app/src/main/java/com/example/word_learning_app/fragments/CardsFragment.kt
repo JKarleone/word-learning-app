@@ -22,6 +22,7 @@ import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import kotlinx.coroutines.launch
+import java.util.*
 
 private var count = 0
 
@@ -87,12 +88,12 @@ class CardsFragment : Fragment() {
                 if (direction == Direction.Right) {
                     currentCard.repeatCount = currentCard.repeatCount + 1
 
-                    updateCurrentCard()
+                    updateCurrentCard(direction)
                 } else if (direction == Direction.Left) {
                     if (currentCard.repeatCount == -1) {
                         currentCard.repeatCount = 100
 
-                        updateCurrentCard()
+                        updateCurrentCard(direction)
                     }
                 }
 
@@ -118,15 +119,38 @@ class CardsFragment : Fragment() {
         diff.dispatchUpdatesTo(adapter)
     }
 
-    private fun updateCurrentCard() {
+    private fun updateCurrentCard(direction: Direction) {
         lifecycleScope.launch {
             val db = (activity?.application as WordLearningApplication).db
+
+            if (direction == Direction.Right) {
+                val newTimeToRepeat = getNewTimeToRepeat(currentCard.repeatCount, currentCard.timeToRepeat)
+                currentCard.timeToRepeat = newTimeToRepeat
+            }
 
             val cardRepository = CardsRepository(db.cardDao())
             cardRepository.update(currentCard)
 
             val wordRepository = WordRepository(currentCard.categoryId, db.wordDao())
-            wordRepository.update(currentCard.wordId, currentCard.repeatCount)
+            wordRepository.update(currentCard.wordId, currentCard.repeatCount, currentCard.timeToRepeat)
         }
+    }
+
+    private fun getNewTimeToRepeat(repeatCount: Int, timeToRepeat: Long): Long {
+        var time = Calendar.getInstance()
+        when (repeatCount) {
+            0 -> time.add(Calendar.MINUTE, 30)
+            1 -> time.add(Calendar.HOUR, 1)
+            2 -> time.add(Calendar.HOUR, 6)
+            3 -> time.add(Calendar.HOUR, 12)
+            4 -> time.add(Calendar.DAY_OF_YEAR, 1)
+            5 -> time.add(Calendar.DAY_OF_YEAR, 7)
+            6 -> time.add(Calendar.DAY_OF_YEAR, 14)
+            7 -> time.add(Calendar.MONTH, 1)
+            8 -> time.add(Calendar.MONTH, 3)
+            9 -> time.add(Calendar.MONTH, 6)
+            else -> time.add(Calendar.MONTH, 6)
+        }
+        return time.timeInMillis
     }
 }

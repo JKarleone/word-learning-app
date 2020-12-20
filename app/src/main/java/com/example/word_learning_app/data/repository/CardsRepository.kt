@@ -5,11 +5,13 @@ import com.example.word_learning_app.data.Dao.CardDao
 import com.example.word_learning_app.data.Dao.WordDao
 import com.example.word_learning_app.data.entity.Card
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 class CardsRepository(private val cardDao: CardDao) {
 
     val allCards: Flow<List<Card>> by lazy {
-        cardDao.getAllCards()
+        val time = Calendar.getInstance().timeInMillis
+        cardDao.getAllCards(time)
     }
 
     @Suppress("RedundantSuspendModifier")

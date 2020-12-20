@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CardDao {
     @Transaction
-    @Query("SELECT * FROM cards WHERE repeat_count < 10")
-    fun getAllCards(): Flow<List<Card>>
+    @Query("SELECT * FROM cards WHERE repeat_count < 10 AND time_to_repeat < :time")
+    fun getAllCards(time: Long): Flow<List<Card>>
 
     @Insert
     suspend fun insert(card: Card)

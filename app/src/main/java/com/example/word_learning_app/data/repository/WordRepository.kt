@@ -38,6 +38,12 @@ class WordRepository(private val wordCategoryId: Long?,
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun update(id: Long?, repeatCount: Int, timeToRepeat: Long) {
+        wordDao.update(id, repeatCount, timeToRepeat)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun getAllWords(categoryId: Long?): List<Word> =
         wordDao.getAllWords(categoryId)
 }
