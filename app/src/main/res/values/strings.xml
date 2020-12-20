@@ -5,4 +5,6 @@
     <string name="word_category_name">Название категории</string>
     <string name="add_new_word_category">Добавить категорию</string>
     <string name="list_name">Название списка</string>
+    <string name="profile">Профиль</string>
+    <string name="progress">Прогресс</string>
 </resources>

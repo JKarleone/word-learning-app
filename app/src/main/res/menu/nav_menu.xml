@@ -9,12 +9,12 @@
     <item
         android:id="@+id/listsFragment"
         android:icon="@drawable/ic_lists"
-        android:title="Списки"/>
+        android:title="Категории"/>
 
 
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="Настройки"/>
+        android:icon="@drawable/ic_profile"
+        android:title="Профиль"/>
 
 </menu>
