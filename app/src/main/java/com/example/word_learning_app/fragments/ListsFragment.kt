@@ -59,7 +59,6 @@ class ListsFragment : Fragment(),
 
         val addingCategoryLayout: ConstraintLayout = root.findViewById(R.id.adding_category_btn)
         addingCategoryLayout.setOnClickListener {
-            Toast.makeText(requireContext(), "Try to add new category", Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(), NewWordCategoryActivity::class.java)
             startActivityForResult(intent, newWordCategoryActivityRequestCode)
         }
@@ -86,8 +85,6 @@ class ListsFragment : Fragment(),
     }
 
     override fun onItemLongClicked(position: Int): Boolean {
-        Toast.makeText(requireContext(), "Длинный клик", Toast.LENGTH_SHORT).show()
-
         val dialogFragment = DeleteCategoryDialogFragment(this, position)
         val manager = requireActivity().supportFragmentManager
         dialogFragment.show(manager, "DeleteCategoryDialog")
@@ -110,7 +107,7 @@ class ListsFragment : Fragment(),
     }
 
     override fun confirmButtonClicked(position: Int) {
-        Toast.makeText(requireContext(), "Пытаюсь удалить", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_SHORT).show()
         val wordCategory = adapter.currentList[position]
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -167,8 +164,6 @@ class ListsFragment : Fragment(),
                 }
             }
         }
-
-        Toast.makeText(requireContext(), "Чекбокс нажали, теперь он: ${wordCategory.chosen}", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -68,14 +68,10 @@ class WordsListActivity : AppCompatActivity(),
     }
 
     override fun onItemClicked(position: Int): Boolean {
-        Toast.makeText(this, "Клик", Toast.LENGTH_SHORT).show()
-
         return true
     }
 
     override fun onItemLongClicked(position: Int): Boolean {
-        Toast.makeText(this, "Длинный клик", Toast.LENGTH_SHORT).show()
-
         val dialogFragment = DeleteWordDialogFragment(position)
         dialogFragment.show(supportFragmentManager, "DeleteWordDialog")
 
@@ -103,12 +99,9 @@ class WordsListActivity : AppCompatActivity(),
     }
 
     fun onAddNewWordButtonClicked(view: View) {
-
         val intent = Intent(this, NewWordActivity::class.java)
         intent.putExtra(NewWordActivity.EXTRA_CATEGORY_NAME, categoryName)
         intent.putExtra(NewWordActivity.EXTRA_CATEGORY_IMG, categoryImg)
-
-        Toast.makeText(this, "Добавляю новое слово $categoryImg", Toast.LENGTH_SHORT).show()
 
         startActivityForResult(intent, newWordActivityRequestCode)
     }

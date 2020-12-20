@@ -80,7 +80,6 @@ class CardsFragment : Fragment() {
             }
 
             override fun onCardDisappeared(view: View?, position: Int) {
-                Toast.makeText(requireContext(), "Disappeared + $position", Toast.LENGTH_SHORT).show()
                 currentCard = adapter.getCards()[position]
             }
 
@@ -97,15 +96,12 @@ class CardsFragment : Fragment() {
                     }
                 }
 
-                Toast.makeText(root.context, "${manager.topPosition} ${adapter.itemCount} ${direction?.name}", Toast.LENGTH_SHORT).show()
-
                 if (manager.topPosition == adapter.itemCount) {
                     paginate()
                 }
 
             }
         }
-        Toast.makeText(requireContext(), "Собираю", Toast.LENGTH_SHORT).show()
         manager = CardStackLayoutManager(context, cardStackListener)
         adapter = CardStackAdapter(cards)
         cardStackView.layoutManager = manager

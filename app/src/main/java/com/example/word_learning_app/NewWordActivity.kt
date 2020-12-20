@@ -45,8 +45,6 @@ class NewWordActivity : AppCompatActivity() {
                 val transcription = editWordTranscription.text.toString()
                 val translation = editWordTranslation.text.toString()
 
-                Toast.makeText(this, "Передаю $word, $transcription, $translation", Toast.LENGTH_SHORT).show()
-
                 replyIntent.putExtra(EXTRA_WORD, word)
                 replyIntent.putExtra(EXTRA_TRANSCRIPTION, transcription)
                 replyIntent.putExtra(EXTRA_TRANSLATION, translation)
