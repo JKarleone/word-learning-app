@@ -52,7 +52,7 @@ class CardsFragment : Fragment() {
         cardsViewModel.allWordsForCards.observe(requireActivity()) {
             val cardsIsEmpty = cards.isEmpty()
             cards = it
-            if (cardsIsEmpty) {
+            if (cardsIsEmpty || manager.topPosition == adapter.itemCount) {
                 paginate()
             }
         }
@@ -96,9 +96,9 @@ class CardsFragment : Fragment() {
                     }
                 }
 
-                if (manager.topPosition == adapter.itemCount) {
-                    paginate()
-                }
+//            if (manager.topPosition == adapter.itemCount) {
+//                paginate()
+//            }
 
             }
         }
