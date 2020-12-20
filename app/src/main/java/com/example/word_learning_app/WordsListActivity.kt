@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.word_learning_app.data.WordViewModelFactory
 import com.example.word_learning_app.data.WordsListViewModel
+import com.example.word_learning_app.data.entity.Card
 import com.example.word_learning_app.data.entity.Word
+import com.example.word_learning_app.data.repository.CardsRepository
 import com.example.word_learning_app.data.repository.WordRepository
 import com.example.word_learning_app.fragments.DeleteWordDialogFragment
 import kotlinx.coroutines.launch
@@ -30,6 +32,7 @@ class WordsListActivity : AppCompatActivity(),
     private var categoryId: Long = -1
     private var categoryName: String = ""
     private var categoryImg: Int = 0
+    private var categoryChosen: Boolean = false
 
     private val newWordActivityRequestCode = 1
 
@@ -44,6 +47,7 @@ class WordsListActivity : AppCompatActivity(),
         categoryId = intent.extras?.getLong(EXTRA_CATEGORY_ID)!!
         categoryName = intent.extras?.getString(EXTRA_CATEGORY_NAME).toString()
         categoryImg = intent.extras?.getInt(EXTRA_CATEGORY_IMG)!!
+        categoryChosen = intent.extras?.getBoolean(EXTRA_CATEGORY_CHOSEN)!!
 
         val listNameTextView: TextView = findViewById(R.id.list_name)
         listNameTextView.text = categoryName
@@ -82,10 +86,10 @@ class WordsListActivity : AppCompatActivity(),
         const val EXTRA_CATEGORY_NAME = "category_name"
         const val EXTRA_CATEGORY_ID = "category_id"
         const val EXTRA_CATEGORY_IMG = "category_img_id"
+        const val EXTRA_CATEGORY_CHOSEN = "category_chosen"
     }
 
     override fun confirmButtonClicked(position: Int) {
-        // TODO(Обработчик кнопки удаления слова)
         val word = adapter.currentList[position]
 
         lifecycleScope.launch {
@@ -99,10 +103,12 @@ class WordsListActivity : AppCompatActivity(),
     }
 
     fun onAddNewWordButtonClicked(view: View) {
-        Toast.makeText(this, "Добавляю новое слово", Toast.LENGTH_SHORT).show()
+
         val intent = Intent(this, NewWordActivity::class.java)
         intent.putExtra(NewWordActivity.EXTRA_CATEGORY_NAME, categoryName)
         intent.putExtra(NewWordActivity.EXTRA_CATEGORY_IMG, categoryImg)
+
+        Toast.makeText(this, "Добавляю новое слово $categoryImg", Toast.LENGTH_SHORT).show()
 
         startActivityForResult(intent, newWordActivityRequestCode)
     }
@@ -123,8 +129,31 @@ class WordsListActivity : AppCompatActivity(),
                                 repeatCount = -1,
                                 timeToRepeat = Calendar.getInstance().timeInMillis )
 
+            val wordsCount = wordsListViewModel.allWords.value?.size
+
             lifecycleScope.launch {
                 wordsListViewModel.insert(newWord)
+
+//                if (categoryChosen) {
+//                    Toast.makeText(this@WordsListActivity, "Добавляю карточку", Toast.LENGTH_SHORT).show()
+//                    val db = (application as WordLearningApplication).db
+//                    val cardRepository = CardsRepository(db.cardDao())
+//                    val newWordsCount = wordsCount?.plus(1)
+//                    while ( newWordsCount != wordsListViewModel.allWords.value?.size) {}
+//                    val words = wordsListViewModel.allWords.value
+//                    cardRepository.insert(Card(
+//                            id = null,
+//                            wordId = words?.get(words.size - 1)?.id,
+//                            word = newWord.word,
+//                            categoryId = categoryId,
+//                            categoryName = categoryName,
+//                            categoryImg = categoryImg,
+//                            transcription = newWord.transcription,
+//                            translation = newWord.translation,
+//                            repeatCount = newWord.repeatCount,
+//                            timeToRepeat = newWord.timeToRepeat
+//                    ))
+//                }
             }
 
             Toast.makeText(

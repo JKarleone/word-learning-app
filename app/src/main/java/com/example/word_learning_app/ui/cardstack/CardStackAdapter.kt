@@ -58,7 +58,7 @@ class CardStackAdapter(private var cards : List<Card> = emptyList()) :
             wordStatusName.text = getStatusName(card.repeatCount)
 
             // Word category info
-            wordListImg.setImageResource(getWordListImage(card.categoryImg!!))
+            wordListImg.setImageResource(card.categoryImg!!)
             wordListName.text = card.categoryName
 
             // Buttons
@@ -88,12 +88,6 @@ class CardStackAdapter(private var cards : List<Card> = emptyList()) :
             when(status) {
                 -1 -> "Не учить"
                 else -> "Повторять"
-            }
-
-        private fun getWordListImage(img: Int) : Int =
-            when (img) {
-                1 -> R.drawable.icon_category1
-                else -> R.drawable.icon_category1
             }
     }
 

@@ -55,17 +55,9 @@ class WordCategoryAdapter(private val fragment: ListsFragment) :
 
         fun setData(wordCategory: WordCategory) {
             categoryName.text = wordCategory.name
-            categoryIcon.setImageResource(getImage(wordCategory.img))
+            categoryIcon.setImageResource(wordCategory.img)
             checkBox.isChecked = wordCategory.chosen
         }
-
-        // TODO("Добавить другие иконки для категорий")
-        private fun getImage(img: Int) : Int =
-            when (img) {
-                1 -> R.drawable.icon_category1
-                else -> R.drawable.icon_category1
-            }
-
     }
 
     companion object {

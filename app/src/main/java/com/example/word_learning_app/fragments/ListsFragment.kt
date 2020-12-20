@@ -102,6 +102,7 @@ class ListsFragment : Fragment(),
         intent.putExtra(WordsListActivity.EXTRA_CATEGORY_NAME, wordCategory.name)
         intent.putExtra(WordsListActivity.EXTRA_CATEGORY_ID, wordCategory.id)
         intent.putExtra(WordsListActivity.EXTRA_CATEGORY_IMG, wordCategory.img)
+        intent.putExtra(WordsListActivity.EXTRA_CATEGORY_CHOSEN, wordCategory.chosen)
 
         startActivity(intent)
 

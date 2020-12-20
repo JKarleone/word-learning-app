@@ -26,7 +26,7 @@ class NewWordActivity : AppCompatActivity() {
         val wordCategoryTextView: TextView = findViewById(R.id.new_word_category_name_text)
         wordCategoryTextView.text = categoryName
         val wordCategoryImg: ImageView = findViewById(R.id.new_word_category_icon)
-        wordCategoryImg.setBackgroundResource(getIcon(categoryImg))
+        wordCategoryImg.setImageResource(categoryImg)
 
         val editWordView: EditText = findViewById(R.id.edit_word)
         val editWordTranscription: EditText = findViewById(R.id.edit_word_transcription)
@@ -62,12 +62,6 @@ class NewWordActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    private fun getIcon(img: Int) : Int =
-        when (img) {
-            1 -> R.drawable.icon_category1
-            else -> R.drawable.icon_category1
-        }
 
     companion object {
         const val EXTRA_CATEGORY_NAME = "category name"
